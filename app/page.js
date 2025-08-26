@@ -1,7 +1,7 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <div>Subsribe</div>
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    ></div>
   );
 }
