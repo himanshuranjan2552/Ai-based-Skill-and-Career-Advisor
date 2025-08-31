@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String @id @default(uuid())
+  clerkUserID String @unique // connected to clerk user id
+
+  // Profile Information
+  name                     String?
+  email                    String   @unique // Unique email address of the user
+  educationalQualification String? // User's highest educational qualification
+  interests                String[] // User's areas of interest
+  skills                   String[] // User's skills
+  jobs                     String[] // List of jobs held by the user
+  experience               Int? // Years of work experience
+
+  // For Career Progression
+  careerGoals String[] // User's career goals
+  currentJob  String? // User's current job title
+  desiredJob  String? // User's desired job title
+
+  // For Skill Assessment and Development
+  skillDevelopmentGoals String[] // User's goals for skill development
+  currentSkills         String[] // User's current skills
+  desiredSkills         String[] // User's desired skills
+  assessmentResults     Assessment[]
+
+  // For Industry Insights
+  industry         String? // Industry of interest, combined industry-subindustry
+  industryInsights IndustryInsights? @relation(fields: [industry], references: [industry])
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+}
+
+model Assessment {
+  // Test user based on his skills and knowledge and assess the user
+  id               String   @id @default(cuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
+  skills           String[] // Skills being assessed
+  quizScore        Float // User's score in the quiz
+  category         String // Category of the quiz
+  questions        Json[] // Questions asked in the quiz
+  knowledgeLevel   Int // User's knowledge level (1-5)
+  improvementAreas String? // Areas where the user can improve, generated using AI
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([userId]) // Create an index on userId for faster lookups
+}
+
+model IndustryInsights {
+  // Industry insights model to store insights related to different industries
+
+  id       String @id @default(cuid())
+  industry String @unique // e.g., "Technology-Software", "Healthcare-Pharmaceuticals"
+  insights Json[] // Array of insights related to the industry. Generated using AI
+
+  // market insights
+  users         User[]
+  keyTrends     Json[] // Key trends in the market
+  marketOutlook Json[] // Market outlook and predictions
+
+  // Industry Trends
+  topSkills   String[] // Top skills in demand in the industry
+  demandLevel DemandLevel // e.g., "High", "Medium", "Low"
+  growth      Json[] // Industry growth trends
+  salary      Json[] // Salary trends in the industry
+
+  // Learning Suggestions and Resources
+  recommendations Json[] // Learning resources and recommendations for the industry
+
+  lastUpdated DateTime @default(now()) @updatedAt
+  nextUpdate  DateTime
+
+  @@index([industry]) // Create an index on industry for faster lookups 
+}
+
+enum DemandLevel {
+  HIGH
+  MEDIUM
+  LOW
+}
