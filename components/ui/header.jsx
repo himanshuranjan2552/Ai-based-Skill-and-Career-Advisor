@@ -41,6 +41,12 @@ const Header = () => {
               <span className="hidden md:block">Home</span>
             </Button>
           </Link>
+           <Link href="/skillIQ">
+            <Button variant="ghost">
+              <House className="h-4 w-4" />
+              <span className="hidden md:block">Skill IQ</span>
+            </Button>
+          </Link>
           <Link href="/about">
             <Button variant="ghost">
               <Info className="h-4 w-4" />
