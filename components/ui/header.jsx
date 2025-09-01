@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  UserButton,
-} from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import {
   ChevronDownIcon,
@@ -21,10 +16,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./dropdown-menu";
+import { checkUser } from "@/lib/inngest/checkUser";
 
 const DASHBOARD_ROUTE = "/dashboard";
 
-const Header = () => {
+const Header = async () => {
+  await checkUser();
   return (
     <div>
       <header className="fixed top-0 w-full border-b bg-background/80 z-50">
@@ -41,7 +38,7 @@ const Header = () => {
               <span className="hidden md:block">Home</span>
             </Button>
           </Link>
-           <Link href="/skillIQ">
+          <Link href="/skillIQ">
             <Button variant="ghost">
               <House className="h-4 w-4" />
               <span className="hidden md:block">Skill IQ</span>
