@@ -1,93 +1,100 @@
 "use client";
-import React from "react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import React, { useState } from "react";
+
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Card } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
+import { User, Settings, CheckCircle } from "lucide-react";
 
-const ProfileCreationPage = () => {
-  const [experience, setExperience] = React.useState("");
-  const [showPopup, setShowPopup] = React.useState(false);
+export default function OnboardingPage() {
+  const [step, setStep] = useState(1);
+  const [data, setData] = useState({
+    name: "",
+    primarySkill: "",
+    careerGoal: "",
+  });
 
-  const handleExperienceChange = (e) => {
-    const value = e.target.value;
-    if (value === "" || (Number(value) >= 0 && Number(value) <= 99)) {
-      setExperience(value);
-      setShowPopup(false);
-    } else {
-      setShowPopup(true);
-    }
-  };
+  const next = () => setStep((s) => Math.min(s + 1, 3));
+  const back = () => setStep((s) => Math.max(s - 1, 1));
+
+  const handleChange = (field) => (e) =>
+    setData((prev) => ({ ...prev, [field]: e.target.value }));
+
+  // Determine which field to validate for the current step
+  const stepField =
+    step === 1 ? "name" : step === 2 ? "primarySkill" : "careerGoal";
+  const isCurrentFieldEmpty = data[stepField].trim() === "";
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-2xl p-4">
-        <CardHeader>
-          <CardTitle>Create Your Profile</CardTitle>
-          <CardDescription>
-            Enter your information to create a personalized profile.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="name">Name</Label>
-            <Input id="name" placeholder="Your Name" type="text" />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="industry">Industry Interest</Label>
-            <Select>
-              <SelectTrigger className="w-[100%]">
-                <SelectValue placeholder="Select an industry" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="technology">Technology</SelectItem>
-                <SelectItem value="healthcare">Healthcare</SelectItem>
-                <SelectItem value="finance">Finance</SelectItem>
-                <SelectItem value="education">Education</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="experience">Experience (Years)</Label>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <Card className="w-full max-w-md p-6 space-y-6">
+        <Progress value={(step / 3) * 100} className="h-2" />
+
+        {step === 1 && (
+          <div className="space-y-4">
+            <div className="flex items-center space-x-2 text-lg font-medium">
+              <User size={20} />
+              <span>Tell us your name</span>
+            </div>
+            <Label htmlFor="name">Full Name</Label>
             <Input
-              id="experience"
-              placeholder="Years of Experience"
-              type="number"
-              min="0"
-              max="99"
-              value={experience}
-              onChange={handleExperienceChange}
+              id="name"
+              value={data.name}
+              onChange={handleChange("name")}
+              placeholder="Jane Doe"
             />
-            {showPopup && (
-              <div className="text-red-500 text-sm mt-1">
-                Please enter a number between 0 and 99.
-              </div>
-            )}
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="jobs">Previous Jobs</Label>
-            <Textarea id="jobs" placeholder="List your previous jobs..." />
+        )}
+
+        {step === 2 && (
+          <div className="space-y-4">
+            <div className="flex items-center space-x-2 text-lg font-medium">
+              <Settings size={20} />
+              <span>Your primary skill</span>
+            </div>
+            <Label htmlFor="skill">Primary Skill</Label>
+            <Input
+              id="skill"
+              value={data.primarySkill}
+              onChange={handleChange("primarySkill")}
+              placeholder="e.g., Python, React"
+            />
           </div>
-          <Button>Create Profile</Button>
-        </CardContent>
+        )}
+
+        {step === 3 && (
+          <div className="space-y-4">
+            <div className="flex items-center space-x-2 text-lg font-medium">
+              <CheckCircle size={20} />
+              <span>Your career goal</span>
+            </div>
+            <Label htmlFor="goal">Career Goal</Label>
+            <Input
+              id="goal"
+              value={data.careerGoal}
+              onChange={handleChange("careerGoal")}
+              placeholder="e.g., Become a data scientist"
+            />
+          </div>
+        )}
+
+        <div className="flex justify-between">
+          <Button variant="outline" onClick={back} disabled={step === 1}>
+            Back
+          </Button>
+          {step < 3 ? (
+            <Button onClick={next} disabled={isCurrentFieldEmpty}>
+              Next
+            </Button>
+          ) : (
+            <Button onClick={() => console.log("Onboarding data:", data)}>
+              Finish
+            </Button>
+          )}
+        </div>
       </Card>
     </div>
   );
-};
-
-export default ProfileCreationPage;
-
+}

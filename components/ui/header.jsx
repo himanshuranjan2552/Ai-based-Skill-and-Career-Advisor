@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   Send,
   StarsIcon,
+  ZapIcon,
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -16,32 +17,33 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./dropdown-menu";
-import { checkUser } from "@/lib/inngest/checkUser";
+import { checkUser } from "@/lib/checkUser";
 
-const DASHBOARD_ROUTE = "/dashboard";
+// const DASHBOARD_ROUTE = "/dashboard";
 
 const Header = async () => {
   await checkUser();
+
   return (
-    <div>
+    <div suppressHydrationWarning>
       <header className="fixed top-0 w-full border-b bg-background/80 z-50">
         <nav className="container mx-auto px-4 h-16 flex items-center space-x-4 justify-center">
-          <Link href={DASHBOARD_ROUTE}>
+          <Link href="/dashboard">
             <Button variant="ghost">
               <LayoutDashboard className="h-4 w-4" />
               <span className="hidden md:block">Dashboard</span>
+            </Button>
+          </Link>
+          <Link href="/skillIQ">
+            <Button variant="ghost">
+              <ZapIcon className="h-4 w-4" />
+              <span className="hidden md:block">Skill IQ</span>
             </Button>
           </Link>
           <Link href="/">
             <Button variant="ghost">
               <House className="h-4 w-4" />
               <span className="hidden md:block">Home</span>
-            </Button>
-          </Link>
-          <Link href="/skillIQ">
-            <Button variant="ghost">
-              <House className="h-4 w-4" />
-              <span className="hidden md:block">Skill IQ</span>
             </Button>
           </Link>
           <Link href="/about">
