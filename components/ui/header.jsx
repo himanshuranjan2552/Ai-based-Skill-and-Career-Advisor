@@ -16,12 +16,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./dropdown-menu";
-import { checkUser } from "@/lib/inngest/checkUser";
+// import { checkUser } from "@/lib/inngest/checkUser";
 
 const DASHBOARD_ROUTE = "/dashboard";
 
 const Header = async () => {
-  await checkUser();
+  // await checkUser();
   return (
     <div>
       <header className="fixed top-0 w-full border-b bg-background/80 z-50">
