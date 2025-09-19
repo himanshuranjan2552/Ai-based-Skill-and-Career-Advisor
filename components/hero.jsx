@@ -19,7 +19,7 @@ const HeroSection = () => {
 
         {/* Call-to-action button */}
         <div>
-          <Link href="/dashboard">
+          <Link href="/careerSuggest">
             <Button className="px-8" size="lg">
               Get Started
             </Button>
