@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
+import CardTrack from "./CardTrack";
 
 const HeroSection = () => {
   return (
@@ -25,11 +26,37 @@ const HeroSection = () => {
             </Button>
           </Link>
         </div>
+      </div>
 
-        <div className="bg-stone-200">
-            <div>
-                {/* carousel code yahan pr add krna hai */}
-            </div>
+      {/* Card Track - Full Width */}
+      <div className="w-full px-0 mt-16 lg:mt-24">
+        <CardTrack />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Feature Text Blocks */}
+        <div className="grid md:grid-cols-3 gap-8 mt-16 lg:mt-24">
+          <div className="text-center">
+            <p className="text-body font-poppins leading-relaxed">
+              Our personalized assessments and guides help you identify your
+              ideal career path based on your skills and aspirations.
+            </p>
+          </div>
+
+          <div className="text-center">
+            <p className="text-body font-poppins leading-relaxed">
+              Whether you're a student or looking to switch careers, our AI
+              tools analyze your interests, skills, and goals for personalized
+              career insights.
+            </p>
+          </div>
+
+          <div className="text-center">
+            <p className="text-body font-poppins leading-relaxed">
+              Leverage our coaching services, networking tools, and ability to
+              track progress in your career growth.
+            </p>
+          </div>
         </div>
       </div>
     </section>
