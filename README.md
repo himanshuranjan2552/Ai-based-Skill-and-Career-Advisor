@@ -2,4 +2,4 @@
 
 This platform enables you to improve your skills and grow your career better.
 
-➡️(https://himanshuranjan2552.github.io/Ai-based-Skill-and-Career-Advisor/)
+➡️(https://ai-based-skill-and-career-advisor.vercel.app)

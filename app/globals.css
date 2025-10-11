@@ -74,6 +74,90 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Card scrolling animation speed */
+  --card-speed: 16s;
+
+  /* Backgrounds & section fills */
+  --bg-hero-1: #f9f5ef;
+  --bg-hero-2: #fffdf8;
+  --section-pink: #fbecec;
+  --section-blue: #e4f1f6;
+  --section-teal: #e9f7f2;
+
+  /* Primary brand & buttons */
+  --teal-primary: #4aa398;
+  --teal-dark: #3b837b;
+  --accent-green: #63bfaa;
+
+  /* Text */
+  --heading: #2c2c2c;
+  --body-text: #4d4d4d;
+  --muted: #6a6a6a;
+
+  /* Cards & features */
+  --card-blue: #5c8dd6;
+  --card-teal-navy: #387d8c;
+  --card-green: #48b88a;
+  --card-mint: #6ab7b5;
+
+  /* Journey section circles */
+  --step-1: #6aa8c9;
+  --step-2: #dda85a;
+  --step-3: #8da65e;
+  --step-4: #c97f63;
+  --step-5: #b76e9e;
+  --step-6: #c7a53a;
+
+  /* CTA banner */
+  --cta-banner: #4c2f2f;
+  --cta-highlight: #f5a623;
+  --cta-btn-bg: #63bfaa;
+  --cta-btn-hover: #4aa398;
+
+  /* Footer */
+  --footer-bg: #f8f8f8;
+  --footer-text: #3d3d3d;
+
+  /* Convert to HSL for shadcn compatibility */
+  --background: 0 0% 100%;
+  --foreground: 210 6% 21%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 210 6% 21%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 210 6% 21%;
+
+  --primary: 160 32% 45%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 210 20% 96%;
+  --secondary-foreground: 210 6% 21%;
+
+  --muted: 210 20% 96%;
+  --muted-foreground: 215 16% 47%;
+
+  --accent: 160 32% 45%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+  --ring: 160 32% 45%;
+
+  --radius: 0.5rem;
+
+  --sidebar-background: 0 0% 98%;
+  --sidebar-foreground: 240 5% 26%;
+  --sidebar-primary: 240 6% 10%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 5% 96%;
+  --sidebar-accent-foreground: 240 6% 10%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 160 32% 45%;
 }
 
 .dark {
@@ -131,18 +215,14 @@
       rgba(255, 255, 255, 0.01) 1px,
       transparent 1px
     ),
-    linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.01) 1px,
-      transparent 1px
-    );
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
   background-size: 50px 50px;
   pointer-events: none;
   z-index: -1;
 }
 
 .grid-background::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -150,4 +230,209 @@
   height: 100%;
   background: radial-gradient(circle, transparent, rgba(0, 0, 0, 0.9));
   z-index: -1;
+}
+
+.card-track {
+  overflow: hidden;
+  width: 100vw;
+  position: relative;
+  margin-left: calc(-50vw + 50%);
+}
+
+.card-track-container {
+  display: flex;
+  gap: 0;
+  will-change: transform;
+  backface-visibility: hidden;
+  animation: scroll-left var(--card-speed) linear infinite;
+}
+
+.card {
+  flex: 0 0 auto;
+  transition: transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 300ms,
+    z-index 0ms;
+  cursor: pointer;
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+}
+
+.card:hover,
+.card:focus {
+  transform: scale(1.15);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  z-index: 50;
+}
+
+.card:hover .card-overlay,
+.card:focus .card-overlay {
+  opacity: 1;
+}
+
+.card-track-container.paused {
+  animation-play-state: paused;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Keyframes for continuous scroll */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-12.5%); /* Width of one card when 8 are visible */
+  }
+}
+
+/* Hero gradient */
+.hero-gradient {
+  background: linear-gradient(180deg, var(--bg-hero-1), var(--bg-hero-2));
+}
+
+/* Feature card backgrounds */
+.bg-card-blue {
+  background-color: var(--card-blue);
+}
+.bg-card-teal-navy {
+  background-color: var(--card-teal-navy);
+}
+.bg-card-green {
+  background-color: var(--card-green);
+}
+.bg-card-mint {
+  background-color: var(--card-mint);
+}
+.bg-section-pink {
+  background-color: var(--section-pink);
+}
+.bg-section-blue {
+  background-color: var(--section-blue);
+}
+.bg-section-teal {
+  background-color: var(--section-teal);
+}
+
+/* Journey step circles */
+.bg-step-1 {
+  background-color: var(--step-1);
+}
+.bg-step-2 {
+  background-color: var(--step-2);
+}
+.bg-step-3 {
+  background-color: var(--step-3);
+}
+.bg-step-4 {
+  background-color: var(--step-4);
+}
+.bg-step-5 {
+  background-color: var(--step-5);
+}
+.bg-step-6 {
+  background-color: var(--step-6);
+}
+
+/* CTA styles */
+.bg-cta-banner {
+  background-color: var(--cta-banner);
+}
+.text-cta-highlight {
+  color: var(--cta-highlight);
+}
+.bg-cta-btn {
+  background-color: var(--cta-btn-bg);
+}
+.bg-cta-btn:hover {
+  background-color: var(--cta-btn-hover);
+}
+
+/* Footer */
+.bg-footer {
+  background-color: var(--footer-bg);
+}
+.text-footer {
+  color: var(--footer-text);
+}
+
+/* Text colors */
+.text-heading {
+  color: var(--heading);
+}
+.text-body {
+  color: var(--body-text);
+}
+.text-muted {
+  color: var(--muted);
+}
+
+/* Brand colors */
+.bg-teal-primary {
+  background-color: var(--teal-primary);
+}
+.bg-teal-primary:hover {
+  background-color: var(--teal-dark);
+}
+.bg-accent-green {
+  background-color: var(--accent-green);
+}
+
+/* Animation utilities */
+.animate-fade-in {
+  animation: fadeIn 600ms ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive card sizing */
+@media (min-width: 1200px) {
+  .card {
+    width: 12.5%;
+  } /* 8 visible cards */
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-12.5%);
+    }
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .card {
+    width: 20%;
+  } /* 5 visible cards */
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-20%);
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .card {
+    width: 50%;
+  } /* 2 visible cards */
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
 }
